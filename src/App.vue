@@ -7,31 +7,37 @@
         </span>
       </div>
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/about">About</router-link> |
+      <router-link to="/test">Test</router-link>
     </div>
     <router-view/>
   </div>
 </template>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #F5F5F5;
+  background: #303030;
 }
 
 #nav {
-  color: #2c3e50;
   width: 100%;
   height: 60px;
-  margin-top: 30px;
   text-align: center;
 }
 
 #logo {
   position: absolute;
   text-align: left;
+}
+
+#logo span {
+  letter-spacing: 3px;
+  padding-left: 10px;
 }
 
 #nav a {
