@@ -1,29 +1,40 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
     <Options/>
-    <Graph/>
+    <v-divider></v-divider>
+    <v-container><h3>Graphs</h3></v-container>
+    <GraphDelta/>
+    <GraphTheta/>
+    <GraphGamma/>
+    <GraphVega/>
+    <GraphRho/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
 import Options from '@/components/Options.vue';
-import Graph from '@/components/Graph.vue';
+import GraphDelta from '@/components/GraphDelta.vue';
+import GraphTheta from '@/components/GraphTheta.vue';
+import GraphGamma from '@/components/GraphGamma.vue';
+import GraphVega from '@/components/GraphVega.vue';
+import GraphRho from '@/components/GraphRho.vue';
 
 export default {
   name: 'Home',
   components: {
-    Graph,
     Options,
-    HelloWorld,
+    GraphDelta,
+    GraphTheta,
+    GraphGamma,
+    GraphVega,
+    GraphRho,
   },
 };
 </script>
 
 <style>
-
+/*
 .container {
   background: #424242;
   border-radius: 0.3rem;
@@ -36,5 +47,5 @@ export default {
 .container:hover{
   box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2),
   0 24px 38px 3px rgba(0, 0, 0, 0.14), 0 9px 46px 8px rgba(0, 0, 0, 0.12);
-}
+}*/
 </style>

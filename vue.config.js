@@ -3,5 +3,9 @@ if (process.env.NODE_ENV === 'production') {
     outputDir: 'dist',
     assetsDir: 'static',
     publicPath: '',
+
+    transpileDependencies: [
+      'vuetify',
+    ],
   };
 }
