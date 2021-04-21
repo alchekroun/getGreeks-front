@@ -17,10 +17,14 @@
         About
       </v-btn>
     </v-app-bar>
-
     <v-main>
       <Home/>
     </v-main>
+    <v-footer>
+      <v-col class="text-center" cols="12">
+        {{ new Date().getFullYear() }} - <strong>Alex</strong>
+      </v-col>
+    </v-footer>
   </v-app>
 </template>
 

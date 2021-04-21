@@ -144,7 +144,7 @@ export default {
       if (spot && strike && drift && rate && expiration && timeU) {
         const path = `http://localhost:5000/api/calc/option/${spot}/${strike}/${drift}/${rate}/${expiration}/${timeU}/`;
         axios.get(path).then((res) => {
-          this.pricingOption = res.data.dataTab;
+          this.pricingOption = res.data;
         })
           .catch((error) => {
             console.error(error);
