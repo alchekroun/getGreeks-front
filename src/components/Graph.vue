@@ -111,8 +111,16 @@ export default {
       const rate = this.ranges.rangeRate.slider;
       const expiration = this.ranges.rangeExpiration.slider;
       const { type } = this;
-      if (spotB && spotE && strike && drift && rate && expiration && type) {
-        const path = `http://localhost:5000/api/calc/${type}/${spotB}/${spotE}/${strike}/${drift}/${rate}/${expiration}/`;
+      const typeOption = this.ranges.typeOptionGraph;
+      let dividend;
+      if (typeOption !== 'Vanilla') {
+        dividend = this.ranges.rangeDividend.slider;
+      } else {
+        dividend = -1;
+      }
+      if (spotB && spotE && strike && drift && rate && expiration
+          && type && typeOption && dividend) {
+        const path = `http://localhost:5000/calc/${typeOption}/${type}/${spotB}/${spotE}/${strike}/${drift}/${rate}/${expiration}/${dividend}/`;
         axios.get(path).then((res) => {
           this.series = [{
             name: 'call',

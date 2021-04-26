@@ -18,7 +18,7 @@
       </v-btn>
     </v-app-bar>
     <v-main>
-      <Home/>
+      <router-view/>
     </v-main>
     <v-footer>
       <v-col class="text-center" cols="12">
@@ -29,15 +29,12 @@
 </template>
 
 <script>
-import Home from './views/Home.vue';
 
 export default {
   name: 'App',
-  components: {
-    Home,
-  },
 
   data() {
+    return {};
   },
 };
 </script>

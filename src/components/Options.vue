@@ -8,41 +8,63 @@
       </v-row>
       <v-row>
         <v-col>
-          <h5>Enter the value</h5>
-          <v-row align="center">
+          <h5>Input</h5>
+          <v-form v-model="isFormValid">
+            <v-row align="center">
+              <v-col class="d-flex" cols="12">
+                <v-select :items="types" label="Type"
+                          item-text='value.name'
+                          item-value='value.name'
+                          v-model="typeOption"
+                >
+                </v-select>
+              </v-col>
             <v-col class="d-flex" cols="12" sm="6">
-              <v-text-field label="Spot" :rules="rules" hide-details="auto" id="spot">
+              <v-text-field label="Spot" :rules="[rules.required, rules.gt0]"
+                            hide-details="auto" id="spot">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
-              <v-text-field label="Strike" :rules="rules" hide-details="auto" id="strike">
+              <v-text-field label="Strike" :rules="[rules.required, rules.gt0]"
+                            hide-details="auto" id="strike">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
-              <v-text-field label="Drift" :rules="rules" hide-details="auto" id="drift">
+              <v-text-field label="Drift" :rules="[rules.required, rules.gt0, rules.lte1]"
+                            hide-details="auto" id="drift">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
-              <v-text-field label="Rate" :rules="rules" hide-details="auto" id="rate">
+              <v-text-field label="Rate" :rules="[rules.required, rules.gt0, rules.lte1]"
+                            hide-details="auto" id="rate">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
-              <v-text-field label="Expiration" :rules="rules" hide-details="auto"
+              <v-text-field label="Expiration" :rules="[rules.required, rules.gt0]"
+                            hide-details="auto"
                             id="expiration">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
-              <v-select :items="items" label="Type"
-                        outlined dark id="timeU"
+              <v-select :items="times" label="Type"
                         item-text='value.name'
                         item-value='value.name'
+                        v-model="timeUnity"
                         >
               </v-select>
             </v-col>
+            <v-col v-if="!isVanilla" class="d-flex" cols="12" sm="6">
+              <v-text-field label="Dividend" :rules="[rules.required, rules.gt0]"
+                            hide-details="auto"
+                            id="dividend">
+              </v-text-field>
+            </v-col>
             <v-col class="d-flex" cols="12" sm="6">
-              <v-btn class="ma-2" outlined @click="calculateGreeks">Test</v-btn>
+              <v-btn class="ma-2" @click="calculateGreeks"
+                     :disabled="!isFormValid">Calculate</v-btn>
             </v-col>
           </v-row>
+          </v-form>
         </v-col>
         <v-col>
           <h5>Result</h5>
@@ -57,8 +79,9 @@
                 v-for="item in items.items"
                 :key="item.name"
                 cols="6"
-                sm="3"
-                md="3"
+                xs="6"
+                sm="6"
+                md="6"
                 lg="6">
                   <v-card>
                     <v-card-title>{{item.name}}</v-card-title>
@@ -107,10 +130,16 @@ export default {
   name: 'Options',
   data() {
     return {
-      rules: [
-        (value) => !!value || 'Required',
-      ],
-      items: ['days', 'months', 'years'],
+      isFormValid: false,
+      rules: {
+        required: (value) => !!value || 'Required',
+        gt0: (value) => value > 0 || 'Positive only',
+        lte1: (value) => value <= 1 || 'Less or equal than 1',
+      },
+      typeOption: 'Vanilla',
+      types: ['Vanilla', 'Dividend'],
+      timeUnity: 'days',
+      times: ['days', 'months', 'years'],
       pricingOption: [
         {
           name: 'Call',
@@ -133,6 +162,11 @@ export default {
       ],
     };
   },
+  computed: {
+    isVanilla() {
+      return this.typeOption === 'Vanilla';
+    },
+  },
   methods: {
     async calculateGreeks() {
       const spot = document.getElementById('spot').value;
@@ -140,9 +174,16 @@ export default {
       const drift = document.getElementById('drift').value;
       const rate = document.getElementById('rate').value;
       const expiration = document.getElementById('expiration').value;
-      const timeU = 'days'; // document.getElementById('timeU').value;
-      if (spot && strike && drift && rate && expiration && timeU) {
-        const path = `http://localhost:5000/api/calc/option/${spot}/${strike}/${drift}/${rate}/${expiration}/${timeU}/`;
+      const timeU = this.timeUnity;
+      const type = this.typeOption;
+      let dividend;
+      if (!this.isVanilla) {
+        dividend = document.getElementById('dividend').value;
+      } else {
+        dividend = -1;
+      }
+      if (spot && strike && drift && rate && expiration && timeU && type && dividend) {
+        const path = `http://localhost:5000/calc/option/${type}/${spot}/${strike}/${drift}/${rate}/${expiration}/${timeU}/${dividend}/`;
         axios.get(path).then((res) => {
           this.pricingOption = res.data;
         })
@@ -156,15 +197,4 @@ export default {
 </script>
 
 <style scoped>
-
-#resultsgreeks {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-#resultsgreeks td, #resultsgreeks th{
-  border-bottom: 1px solid #515151;
-  padding: 6px;
-}
-
 </style>
