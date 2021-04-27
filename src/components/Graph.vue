@@ -120,7 +120,7 @@ export default {
       }
       if (spotB && spotE && strike && drift && rate && expiration
           && type && typeOption && dividend) {
-        const path = `http://localhost:5000/calc/${typeOption}/${type}/${spotB}/${spotE}/${strike}/${drift}/${rate}/${expiration}/${dividend}/`;
+        const path = `http://api.getgreeks.xyz/calc/${typeOption}/${type}/${spotB}/${spotE}/${strike}/${drift}/${rate}/${expiration}/${dividend}/`;
         axios.get(path).then((res) => {
           this.series = [{
             name: 'call',

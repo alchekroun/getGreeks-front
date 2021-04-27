@@ -1,0 +1,204 @@
+<template>
+  <v-main>
+    <v-container>
+      <h1 class="text-center">Documentation</h1>
+      <v-row>
+        <v-col class="text-justify">
+          <p>Here you can see all the formulas used by the <a href="http://api.getgreeks.xyz">API</a>.<br>
+            The API is developed with Flask and uses the library <i>Scipy.stats</i> .
+          </p>
+        </v-col>
+      </v-row>
+      <h4>Formulas</h4>
+      <v-row>
+        <v-col>
+          <h6 class="text-center text-capitalize">Vanilla</h6>
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th class="text-center text-h5">Call</th>
+                  <th class="text-center text-h5">Put</th>
+                </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="text-center"><i>Price</i></td>
+                <td>
+                  <div v-katex:display="'S_{0}N(d_{1}) - Ke^{-rT}N(d_{2})'"></div>
+                </td>
+                <td>
+                  <div v-katex:display="'Ke^{-rT}N(-d_{2}) - S_{0}N(-d_{1})'"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\Delta = \\frac{\\partial c}{\\partial S}'"
+                  ></div>
+                </td>
+                <td><div v-katex:display="'N(d_{1})'"></div></td>
+                <td><div v-katex:display="'-N(d_{1})'"></div></td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\Theta = \\frac{\\partial^{2} c}{\\partial S^{2}}'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'-\\frac{S_{0}N\'(d_{1})\\sigma}{2\\sqrt{T}} ' +
+                   '- rKe^{-rT}N(d_{2})'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'-\\frac{S_{0}N\'(d_{1})\\sigma}{2\\sqrt{T}} ' +
+                   '+ rKe^{-rT}N(-d_{2})'"
+                  ></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\Gamma = \\frac{\\partial c}{\\partial t}'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'\\frac{N\'(d_{1})}{S_{0}\\sigma\\sqrt{T}}'"></div>
+                </td>
+                <td>
+                  <div v-katex:display="'\\frac{N\'(-d_{1})}{S_{0}\\sigma\\sqrt{T}}'"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\nu = \\frac{\\partial c}{\\partial \\sigma}'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'S_{0}\\sqrt{T}N\'(d_{1})'"></div>
+                </td>
+                <td>
+                  <div v-katex:display="'S_{0}\\sqrt{T}N\'(-d_{1})'"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\rho = \\frac{\\partial c}{\\partial r}'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'KTe^{-rT}N(d_{2})'"></div>
+                </td>
+                <td>
+                  <div v-katex:display="'-KTe^{-rT}N(-d_{2})'"></div>
+                </td>
+              </tr>
+            </tbody>
+            </template>
+          </v-simple-table>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <h6 class="text-center text-capitalize">Dividend</h6>
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+              <tr>
+                <th></th>
+                <th class="text-center text-h5">Call</th>
+                <th class="text-center text-h5">Put</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td class="text-center"><i>Price</i></td>
+                <td>
+                  <div v-katex:display="'S_{0}e^{-qT}N(d_{1}) - Ke^{-rT}N(d_{2})'"></div>
+                </td>
+                <td>
+                  <div v-katex:display="'Ke^{-rT}N(-d_{2}) - S_{0}e^{-qT}N(-d_{1})'"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\Delta = \\frac{\\partial c}{\\partial S}'"
+                  ></div>
+                </td>
+                <td><div v-katex:display="'e^{-qT}N(d_{1})'"></div></td>
+                <td><div v-katex:display="'e^{-qT} * \\big(N(d_{1}) - 1\\big)'"></div></td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\Theta = \\frac{\\partial^{2} c}{\\partial S^{2}}'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'-\\frac{S_{0}N\'(d_{1})\\sigma e^{-qT}}{2\\sqrt{T}} ' +
+                   '+ qS_{0}N(d_{1})e^{-qT} - rKe^{-rT}N(d_{2})'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'-\\frac{S_{0}N\'(d_{1})\\sigma e^{-qT}}{2\\sqrt{T}} ' +
+                   '- qS_{0}N(d_{1})e^{-qT} + rKe^{-rT}N(-d_{2})'"
+                  ></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\Gamma = \\frac{\\partial c}{\\partial t}'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'\\frac{N\'(d_{1})e^{-qT}}{S_{0}\\sigma\\sqrt{T}}'"></div>
+                </td>
+                <td>
+                  <div v-katex:display="'\\frac{N\'(-d_{1})e^{-qT}}{S_{0}\\sigma\\sqrt{T}}'"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\nu = \\frac{\\partial c}{\\partial \\sigma}'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'S_{0}\\sqrt{T}N\'(d_{1})e^{-qT}'"></div>
+                </td>
+                <td>
+                  <div v-katex:display="'S_{0}\\sqrt{T}N\'(-d_{1})e^{-qT}'"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div v-katex:display="'\\rho = \\frac{\\partial c}{\\partial r}'"
+                  ></div>
+                </td>
+                <td>
+                  <div v-katex:display="'-Te^{-qT}S_{0}N(d_{1})'"></div>
+                </td>
+                <td>
+                  <div v-katex:display="'-Te^{-qT}S_{0}N(-d_{1})'"></div>
+                </td>
+              </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-main>
+</template>
+<script>
+
+export default {
+  name: 'Documentation',
+  data() {
+    return {
+    };
+  },
+};
+
+</script>
+
+<style>
+@import "../../node_modules/katex/dist/katex.min.css";
+</style>

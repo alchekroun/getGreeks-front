@@ -4,15 +4,17 @@
       absolute
       elevate-on-scroll
       app
+      dense
+      color="rgba(66, 184, 131, 0.1)"
     >
       <v-toolbar-title>GetGreeks</v-toolbar-title>
-
       <v-spacer></v-spacer>
-
       <v-btn text to="/">
         Home
       </v-btn>
-
+      <v-btn text to="/doc">
+        Documentation
+      </v-btn>
       <v-btn text to="/about">
         About
       </v-btn>
@@ -20,9 +22,10 @@
     <v-main>
       <router-view/>
     </v-main>
-    <v-footer>
+    <v-footer outlined padless
+              color="rgba(66, 184, 131, 0.1)">
       <v-col class="text-center" cols="12">
-        {{ new Date().getFullYear() }} - <strong>Alex</strong>
+        &copy; {{ new Date().getFullYear() }} - <strong>Alex</strong>
       </v-col>
     </v-footer>
   </v-app>
@@ -39,5 +42,17 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+$body-font-family: 'Oxygen', sans-serif;
+$title-font-family: 'Helvetica', serif !important;
+
+.v-application {
+  font-family: $body-font-family;
+}
+
+.headline,
+.title,
+.subheading {
+  font-family: $title-font-family;
+}
 </style>

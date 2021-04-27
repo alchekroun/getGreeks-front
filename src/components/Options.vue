@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <h3> Values of an option</h3>
+          <h3>Values of an option</h3>
         </v-col>
       </v-row>
       <v-row>
@@ -79,37 +79,18 @@
                 v-for="item in items.items"
                 :key="item.name"
                 cols="6"
-                xs="6"
-                sm="6"
+                xs="12"
+                sm="12"
                 md="6"
                 lg="6">
-                  <v-card>
+                  <v-card
+                      color="rgba(66, 184, 131, 0.1)">
                     <v-card-title>{{item.name}}</v-card-title>
-                    <v-divider></v-divider>
-                    <v-list dense>
+                    <v-list dense v-for="value in valuesAvailable" :key="value"
+                            color="rgba(66, 184, 131, 0.1)">
                       <v-list-item>
-                        <v-list-item-content>Price:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{item.price}}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>Delta:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{item.delta}}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>Theta:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{item.theta}}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>Gamma:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{item.gamma}}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>Vega:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{item.vega}}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>Rho:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{item.rho}}</v-list-item-content>
+                        <v-list-item-content>{{value}}:</v-list-item-content>
+                        <v-list-item-content class="align-end">{{item[value]}}</v-list-item-content>
                       </v-list-item>
                     </v-list>
                   </v-card>
@@ -140,6 +121,7 @@ export default {
       types: ['Vanilla', 'Dividend'],
       timeUnity: 'days',
       times: ['days', 'months', 'years'],
+      valuesAvailable: ['price', 'delta', 'theta', 'gamma', 'vega', 'rho'],
       pricingOption: [
         {
           name: 'Call',
@@ -183,7 +165,7 @@ export default {
         dividend = -1;
       }
       if (spot && strike && drift && rate && expiration && timeU && type && dividend) {
-        const path = `http://localhost:5000/calc/option/${type}/${spot}/${strike}/${drift}/${rate}/${expiration}/${timeU}/${dividend}/`;
+        const path = `http://api.getgreeks.xyz/calc/option/${type}/${spot}/${strike}/${drift}/${rate}/${expiration}/${timeU}/${dividend}/`;
         axios.get(path).then((res) => {
           this.pricingOption = res.data;
         })
