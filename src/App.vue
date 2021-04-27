@@ -43,6 +43,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "../node_modules/katex/dist/katex.min.css";
+
 $body-font-family: 'Oxygen', sans-serif;
 $title-font-family: 'Helvetica', serif !important;
 
