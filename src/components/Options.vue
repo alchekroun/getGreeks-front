@@ -165,7 +165,7 @@ export default {
         dividend = -1;
       }
       if (spot && strike && drift && rate && expiration && timeU && type && dividend) {
-        const path = `http://api.getgreeks.xyz/calc/option/${type}/${spot}/${strike}/${drift}/${rate}/${expiration}/${timeU}/${dividend}/`;
+        const path = `https://api.getgreeks.xyz/calc/option/${type}/${spot}/${strike}/${drift}/${rate}/${expiration}/${timeU}/${dividend}/`;
         axios.get(path).then((res) => {
           this.pricingOption = res.data;
         })
