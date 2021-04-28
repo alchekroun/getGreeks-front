@@ -112,16 +112,19 @@ export default {
       const expiration = this.ranges.rangeExpiration.slider;
       const { type } = this;
       const typeOption = this.ranges.typeOptionGraph;
-      let dividend;
-      if (typeOption !== 'Vanilla') {
-        dividend = this.ranges.rangeDividend.slider;
-      } else {
-        dividend = -1;
-      }
+      const dividend = type !== 'Vanilla' ? this.ranges.rangeDividend.slider : -1;
       if (spotB && spotE && strike && drift && rate && expiration
           && type && typeOption && dividend) {
-        const path = `https://api.getgreeks.xyz/calc/${typeOption}/${type}/${spotB}/${spotE}/${strike}/${drift}/${rate}/${expiration}/${dividend}/`;
-        axios.get(path).then((res) => {
+        const path = `https://api.getgreeks.xyz/calc/${type}/${typeOption}/`;
+        axios.post(path, {
+          spot_b: spotB,
+          spot_e: spotE,
+          strike,
+          drift,
+          rate,
+          expiration,
+          dividend,
+        }).then((res) => {
           this.series = [{
             name: 'call',
             data: res.data.call,

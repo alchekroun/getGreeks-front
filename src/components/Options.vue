@@ -15,48 +15,49 @@
                 <v-select :items="types" label="Type"
                           item-text='value.name'
                           item-value='value.name'
-                          v-model="typeOption"
+                          v-model="formValues.typeOption"
                 >
                 </v-select>
               </v-col>
             <v-col class="d-flex" cols="12" sm="6">
               <v-text-field label="Spot" :rules="[rules.required, rules.gt0]"
-                            hide-details="auto" id="spot">
+                            hide-details="auto" v-model="formValues.spot">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
               <v-text-field label="Strike" :rules="[rules.required, rules.gt0]"
-                            hide-details="auto" id="strike">
+                            hide-details="auto" v-model="formValues.strike">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
               <v-text-field label="Drift" :rules="[rules.required, rules.gt0, rules.lte1]"
-                            hide-details="auto" id="drift">
+                            hide-details="auto" v-model="formValues.drift">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
               <v-text-field label="Rate" :rules="[rules.required, rules.gt0, rules.lte1]"
-                            hide-details="auto" id="rate">
+                            hide-details="auto" v-model="formValues.rate">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
               <v-text-field label="Expiration" :rules="[rules.required, rules.gt0]"
                             hide-details="auto"
-                            id="expiration">
+                            v-model="formValues.expiration">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
               <v-select :items="times" label="Type"
                         item-text='value.name'
                         item-value='value.name'
-                        v-model="timeUnity"
+                        :rules="[rules.required]"
+                        v-model="formValues.timeUnity"
                         >
               </v-select>
             </v-col>
             <v-col v-if="!isVanilla" class="d-flex" cols="12" sm="6">
               <v-text-field label="Dividend" :rules="[rules.required, rules.gt0]"
                             hide-details="auto"
-                            id="dividend">
+                            v-model="formValues.dividend">
               </v-text-field>
             </v-col>
             <v-col class="d-flex" cols="12" sm="6">
@@ -117,9 +118,16 @@ export default {
         gt0: (value) => value > 0 || 'Positive only',
         lte1: (value) => value <= 1 || 'Less or equal than 1',
       },
-      typeOption: 'Vanilla',
+      formValues: {
+        spot: null,
+        strike: null,
+        drift: null,
+        rate: null,
+        dividend: null,
+        timeUnity: null,
+        typeOption: 'Vanilla',
+      },
       types: ['Vanilla', 'Dividend'],
-      timeUnity: 'days',
       times: ['days', 'months', 'years'],
       valuesAvailable: ['price', 'delta', 'theta', 'gamma', 'vega', 'rho'],
       pricingOption: [
@@ -146,32 +154,34 @@ export default {
   },
   computed: {
     isVanilla() {
-      return this.typeOption === 'Vanilla';
+      return this.formValues.typeOption === 'Vanilla';
     },
   },
   methods: {
     async calculateGreeks() {
-      const spot = document.getElementById('spot').value;
-      const strike = document.getElementById('strike').value;
-      const drift = document.getElementById('drift').value;
-      const rate = document.getElementById('rate').value;
-      const expiration = document.getElementById('expiration').value;
-      const timeU = this.timeUnity;
-      const type = this.typeOption;
-      let dividend;
-      if (!this.isVanilla) {
-        dividend = document.getElementById('dividend').value;
-      } else {
-        dividend = -1;
-      }
+      const { spot } = this.formValues;
+      const { strike } = this.formValues;
+      const { drift } = this.formValues;
+      const { rate } = this.formValues;
+      const { expiration } = this.formValues;
+      const timeU = this.formValues.timeUnity;
+      const type = this.formValues.typeOption;
+      const dividend = !this.isVanilla ? this.formValues.dividend : -1;
       if (spot && strike && drift && rate && expiration && timeU && type && dividend) {
-        const path = `https://api.getgreeks.xyz/calc/option/${type}/${spot}/${strike}/${drift}/${rate}/${expiration}/${timeU}/${dividend}/`;
-        axios.get(path).then((res) => {
+        const path = `http://localhost:5000/calc/option/${type}/`;
+        axios.post(path, {
+          spot,
+          strike,
+          drift,
+          rate,
+          expiration,
+          time: timeU,
+          dividend,
+        }).then((res) => {
           this.pricingOption = res.data;
-        })
-          .catch((error) => {
-            console.error(error);
-          });
+        }).catch((error) => {
+          console.error(error);
+        });
       }
     },
   },
