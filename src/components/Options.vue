@@ -168,7 +168,7 @@ export default {
       const type = this.formValues.typeOption;
       const dividend = !this.isVanilla ? this.formValues.dividend : -1;
       if (spot && strike && drift && rate && expiration && timeU && type && dividend) {
-        const path = `http://localhost:5000/calc/option/${type}/`;
+        const path = `https://api.getgreeks.xyz/calc/option/${type}/`;
         axios.post(path, {
           spot,
           strike,
