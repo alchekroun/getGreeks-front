@@ -3,15 +3,44 @@
     <v-container>
       <h1 class="text-center">Documentation</h1>
       <v-row>
-        <v-col class="text-justify">
-          <p>Here you can see all the formulas used by the <a href="http://api.getgreeks.xyz">API</a>.<br>
-            The API is developed with Flask and uses the library <i>Scipy.stats</i> .
+        <v-col cols="12" lg="12">
+          <h4>Technologies</h4>
+        </v-col>
+        <v-col class="text-justify" cols="12" lg="6" md="6" xl="6">
+          <p>This site is uilt in two parts. The front end makes calls to the API in the back end,
+          where the calculations are made. The technologies used are the following :</p>
+          <ul>
+            <li>VueJS</li>
+            <li>ExpressJS</li>
+            <li>Flask</li>
+            <li>Scipy.stats</li>
+          </ul>
+          <p>The documentation for the api is available at the following address : <a href="https://api.getgreeks.xyz/apidocs">api.getgreeks.xyz/apidocs</a>.
           </p>
         </v-col>
+        <v-col class="d-flex justify-center" cols="12" lg="6" md="6" xl="6">
+          <v-img alt="diagramapi" src="../assets/diagapi.png" max-width="250px" max-height="250px"/>
+        </v-col>
       </v-row>
-      <h4>Formulas</h4>
+      <v-divider></v-divider>
       <v-row>
-        <v-col>
+        <v-col cols="12" lg="12">
+          <h4>Formulas</h4>
+        </v-col>
+        <v-col cols="12" lg="12">
+          <p class="text-justify">"Each Greek letter measures a different dimension
+            to the risk in an option
+            position and the aim of a trader is to manage the Greeks so that all risks
+            are acceptable." (Jonh C. Hull in <i>Options, futures and other derivatives</i>)</p>
+          <p class="text-justify">All Greeks letter calculated here follow the respective formula.
+            With a distinction between the different types of options. <br> At the moment the site
+            provides only: </p>
+          <ul>
+            <li>Vanilla option</li>
+            <li>Options with dividend</li>
+          </ul>
+        </v-col>
+        <v-col cols="12" lg="12" md="12" xl="12">
           <h6 class="text-center text-capitalize">Vanilla</h6>
           <v-simple-table>
             <template v-slot:default>
@@ -96,9 +125,7 @@
             </template>
           </v-simple-table>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
+        <v-col cols="12" lg="12" md="12" xl="12">
           <h6 class="text-center text-capitalize">Dividend</h6>
           <v-simple-table>
             <template v-slot:default>

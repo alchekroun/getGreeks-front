@@ -25,7 +25,7 @@
     <v-footer outlined padless
               color="rgba(66, 184, 131, 0.1)">
       <v-col class="text-center" cols="12">
-        &copy; {{ new Date().getFullYear() }} - <strong>Alex</strong>
+        &copy; {{ new Date().getFullYear() }} - <strong>Alexandre</strong> - V0.2
       </v-col>
     </v-footer>
   </v-app>
